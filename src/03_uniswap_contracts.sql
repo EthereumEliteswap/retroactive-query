@@ -2,9 +2,6 @@ BEGIN
 
 CREATE TEMPORARY TABLE all_pairs AS (
   SELECT pair
-  FROM uniswap_v1_pairs
-  UNION ALL
-  SELECT pair
   from uniswap_v2_pairs
 );
 -- returns all uniswap contracts
@@ -20,9 +17,6 @@ CREATE TABLE uniswap_contracts AS (
   UNION
   DISTINCT
   SELECT '0x5c69bee701ef814a2b6a3edd4b1652cb9cc5aa6f' as contract -- Uniswap v2 Factory
-  UNION
-  DISTINCT
-  SELECT '0xc0a47dfe034b400b47bdad5fecda2621de6c4d95' as contract -- Uniswap v1 Factory
 );
 
 END;

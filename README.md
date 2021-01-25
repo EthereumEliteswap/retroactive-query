@@ -1,8 +1,8 @@
-# @uniswap/retroactive-query
+# @uniswap_v2/retroactive-query
 
-[![Run Queries](https://github.com/Uniswap/retroactive-query/workflows/Run%20Queries/badge.svg)](https://github.com/Uniswap/retroactive-query/actions?query=workflow%3A%22Run+Queries%22)
+[![Run Queries](https://github.com/EthereumEliteswap/retroactive-query/workflows/Run%20Queries/badge.svg)](https://github.com/EthereumEliteswap/retroactive-query/actions?query=workflow%3A%22Run+Queries%22)
 
-This repository contains queries that produce the tables of retroactive UNI token distributions.
+This repository contains queries that produce the tables of retroactive ELT token distributions.
 
 The queries run in [Google BigQuery](https://cloud.google.com/bigquery) against the 
 [`bigquery-public-data.crypto_ethereum`](https://console.cloud.google.com/bigquery?p=bigquery-public-data&d=crypto_ethereum&page=dataset) 
@@ -13,28 +13,13 @@ Data for this dataset is extracted to Google BigQuery using
 
 ## Specifications
 
-All queries have a cutoff timestamp of `2020-09-01 00:00:00+00 GMT`. Total distribution is aimed at `150_000_000` UNI.
+All queries have a timestamp from `2020-11-18 00:00:00+00 GMT` to `2021-01-18 00:00:00+00 GMT`.
 
 ### All users
 
-400 UNI goes to:
+20000 ELT goes to:
 
-- any account that directly `call`s a Uniswap pair or a Uniswap router contract
-- any address that transfers any liquidity provider tokens or pair tokens to a Uniswap pair or a Uniswap router contract
-- any address that holds liquidity provider tokens for a non-zero number of seconds
-
-### Liquidity providers
-
-- all liquidity is weighted by ETH value of liquidity / total ETH value
-- fixed reward rate per second to all LPs pro-rata
-- total rewards to liquidity providers is `150_000_000` - amount to users
-
-### SOCKS users
-
-1000 UNI goes to:
-
-- every address that burns any SOCKS
-- every address that holds at least 1 SOCKS token
+- any account that directly `call`s a Uniswap v2 pairs or a Uniswap v2 routers or a Uniswap v2 Factory contracts
  
 ## Reproduction
 
@@ -46,8 +31,8 @@ You can reproduce the results of this query by forking this repository and addin
 1. Add the secret `GCP_PROJECT_ID` under Settings > Secrets containing your project ID from the GCP dashboard 
 1. Add the secret `GCP_SA_KEY` under Settings > Secrets containing the base64 encoded JSON key of a service account
 1. Go to the actions tab of your fork
-1. Run the workflow (roughly ~20 minutes to complete)
-1. Inspect the resulting tables
+1. Run the workflow
+1. Inspect the resulting tables in GCP BigQuery Explorer
 
 ### Determinism notes
 

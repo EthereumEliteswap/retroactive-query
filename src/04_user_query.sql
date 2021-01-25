@@ -2,18 +2,11 @@ BEGIN
 
 CREATE TEMPORARY TABLE all_pairs AS (
   SELECT pair
-  FROM uniswap_v1_pairs
-  UNION ALL
-  SELECT pair
   from uniswap_v2_pairs
 );
 -- returns all addresses that interacted with uniswap
 CREATE TABLE user_query AS (
   WITH tokens AS (
-    SELECT token
-    FROM uniswap_v1_pairs
-    UNION
-    DISTINCT
     SELECT token0 AS token
     FROM uniswap_v2_pairs
     UNION
@@ -30,7 +23,8 @@ CREATE TABLE user_query AS (
             SELECT contract
             FROM uniswap_contracts
         )
-        AND block_timestamp < @cutoff_timestamp
+        AND block_timestamp >= @cutoff_from_timestamp
+        AND block_timestamp < @cutoff_to_timestamp
   ),
   uniswap_traces as (
     SELECT
@@ -41,7 +35,8 @@ CREATE TABLE user_query AS (
          SELECT contract
          FROM uniswap_contracts
       )
-      AND block_timestamp < @cutoff_timestamp
+      AND block_timestamp >= @cutoff_from_timestamp
+      AND block_timestamp < @cutoff_to_timestamp
       AND call_type = 'call'
   )
   SELECT DISTINCT address

@@ -12,6 +12,13 @@ BEGIN
                 ELSE TRUE
                END)                                     AS passes
     UNION ALL
+    SELECT "there are exactly 445824 users" AS test_case,
+        CAST((SELECT COUNT(distinct address) from user_query) AS STRING) as test_value,
+           (CASE
+                WHEN ((SELECT COUNT(distinct address) from user_query)) = 445824 THEN TRUE
+                ELSE FALSE
+               END)                                 AS passes
+    UNION ALL
     SELECT "no one gets less than the user_reward in ELT" AS test_case,
             CAST((SELECT MIN(earnings) FROM all_earnings) AS STRING) as test_value,
             (SELECT (MIN(earnings) = @user_reward) FROM all_earnings)

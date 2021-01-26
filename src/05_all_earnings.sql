@@ -6,7 +6,7 @@ BEGIN -- returns each address and how much ELT it should receive
     )
     SELECT address,
       @user_reward as earnings,
-      "user" as reason
+      "user" as reasons
     FROM all_users
   );
 END;
